@@ -43,6 +43,7 @@ pipeline {
             }
         
     	}
+        
         stage ('Docker Build') {
             steps {
                 script{
@@ -56,6 +57,15 @@ pipeline {
             }
         
     	}	
+
+        stage ('Docker Push') {
+            steps {
+                withCredentials([usernamePassword(credentialsId:'dockerHub',passwordVariable: 'dockerHubPassword',usernameVariable:'dockerHubUser')])
+                 bat "docker login -u $(env.dockerHubUser) -p $(env.dockerHubPassword)"
+                
+                 bat "docker build -t manasa932/spring-jenkins-ci-cd:latest"
+                 }
+        }
     	
   }
      post {
