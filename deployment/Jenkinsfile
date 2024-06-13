@@ -66,6 +66,13 @@ pipeline {
                  }
             }
     	}
+        stage('Deploy to K8s Cluster'){
+            steps{
+                script{
+                    kubernetesDeploy(configs:"K8s/deployment.yaml","KBs/service.yaml")
+                }
+            }
+        }
     }
 
      post {
