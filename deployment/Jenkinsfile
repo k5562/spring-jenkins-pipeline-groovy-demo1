@@ -60,14 +60,14 @@ pipeline {
 
         stage ('Docker Push') {
             steps {
-                withCredentials([usernamePassword(credentialsId:'dockerHub',passwordVariable: 'dockerHubPassword',usernameVariable:'dockerHubUser')])
-                 bat "docker login -u $(env.dockerHubUser) -p $(env.dockerHubPassword)"
-                
-                 bat "docker build -t manasa932/spring-jenkins-ci-cd:latest"
+                withCredentials([usernamePassword(credentialsId:'dockerHub',passwordVariable:'dockerHubPassword',usernameVariable:'dockerHubUser')]){
+                 bat "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+                 bat "docker push -t manasa932/spring-jenkins-ci-cd:latest"
                  }
-        }
-    	
-  }
+            }
+    	}
+    }
+    
      post {
                 // If Maven was able to run the tests, even if some of the test
                 // failed, record the test results and archive the jar file.
